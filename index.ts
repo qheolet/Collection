@@ -53,7 +53,9 @@ export class Collection<T>{
   query(): T{}
   
   delete(idx: number): T{
-
+    this._list.next(
+      this.snapshot.splice(idx, 1)
+    );
   }
   
   pop(): T{}
