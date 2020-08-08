@@ -1,5 +1,6 @@
 import { of, Observable, BehaviorSubject } from 'rxjs'; 
-import { map } from 'rxjs/operators';
+// import { map } from 'rxjs/operators';
+
 
 export class Collection<T>{
   private _list : BehaviorSubject<Array<T>> = new BehaviorSubject([]);
@@ -27,7 +28,6 @@ export class Collection<T>{
   }
 
   set(item:Array<T>): number{
-
     this._list.next(this.snapshot.concat(item))
     return this.snapshot.length;
   }
@@ -44,31 +44,22 @@ export class Collection<T>{
     return find.length? find[0] : undefined;
   }
 
-  reverse(): void {
-    this._list.next(this.snapshot.reverse())
-  }
-
+  reverse(): BehaviorSubject<Array<T>> {}
   sort(property:string,order: 'asc'|'dsc'): T{}
-  
   query(): T{}
-  
-  delete(idx: number): T{
-    this._list.next(
-      this.snapshot.splice(idx, 1)
-    );
-  }
-  
+  delete(idx: number): T{}
   pop(): T{}
-  
   switch(): boolean{}
+  indexBy(property:string): {[key:string] : T} {
+    const r = {};
+
+    this._list
+    
+    return r;
+  }
 
   getObservable(){
     return this._list;
-  }
-
-
-  isEmpty(){
-    !this._list.value.length;
   }
 
 
@@ -165,7 +156,3 @@ console.log(collection.getItemByIndex(0).description);
 collection.set([task1,task2])
 console.log('costructor',collection.getById('2').constructor.name);
 console.log(collection.snapshot);
-collection.reverse();
-collection.add(new Task({id:45, description:'kkkk',date:'12-12-2020'}))
-console.log(collection.snapshot);
-
