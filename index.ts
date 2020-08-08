@@ -1,6 +1,4 @@
 import { of, Observable, BehaviorSubject } from 'rxjs'; 
-// import { map } from 'rxjs/operators';
-
 
 export class Collection<T>{
   private _list : BehaviorSubject<Array<T>> = new BehaviorSubject([]);
@@ -50,10 +48,19 @@ export class Collection<T>{
   delete(idx: number): T{}
   pop(): T{}
   switch(): boolean{}
+  
+  
   indexBy(property:string): {[key:string] : T} {
     const r = {};
+    const list = this.snapshot;
 
-    this._list
+    list.forEach((item) => {
+      if ( r.hasOwnProperty(item[property])) {
+        r[item[property]].push(item);
+      } else {
+        r[item[property]] = [item];
+      }
+    });
     
     return r;
   }
@@ -103,17 +110,21 @@ export class DateValue{
   }
 
 }
+export type categories = string[];
+
 export class Task extends Model{
   date: DateValue;
   id: string = '';
   description = '';
   done: boolean = false;
+  categories: categories;
 
-  constructor({date, id, description}){
+  constructor({date, id, description, categories}){
     super();
     this.date = new DateValue(date);
     this.id = id;
     this.description = description;
+    this.categories = categories
   }
 
   toggle(){
@@ -131,28 +142,24 @@ export class Task extends Model{
 const task = new Task({
   date:'june 12, 2020',
   id:'1',
-  description:'Comococmoc 1'
+  description:'Comococmoc 1',
+  categories:['a']
 });
 const task1 = new Task({
   date:'june 13, 2020',
   id:'2',
-  description:'Comococmoc 2'
+  description:'Comococmoc 2',
+  categories: ['a','b']
 });
 const task2 = new Task({
   date:'june 14, 2020',
   id:'3',
-  description:'Comococmoc 3'
+  description:'Comococmoc 3',
+  categories: ['c']
 });
 
-console.log(task)
-console.log(task1)
-console.log(task2)
+const collection = new Collection<Task>([task1,task2,task], {id:'id'})
 
-const collection = new Collection<Task>([task1,task2], {id:'id'})
+console.log('3',collection.getById('3'));
 
-console.log(collection);
-collection.add(task)
-console.log(collection.getItemByIndex(0).description);
-collection.set([task1,task2])
-console.log('costructor',collection.getById('2').constructor.name);
-console.log(collection.snapshot);
+console.log(collection.indexBy('id'));
