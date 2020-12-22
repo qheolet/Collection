@@ -71,6 +71,9 @@ console.log(
     (x: Task) => {
       return x.done ? "done" : "undone";
     },
-    { undone: [], done: [] }
+    {
+      undone: [],
+      done: []
+    }
   )
 );
