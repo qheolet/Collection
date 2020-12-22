@@ -38,9 +38,17 @@ export class Collection<T> {
     return this._list.sort(sortFn);
   }
 
-  deleteByIdx(idx: number): T[] { 
+  deleteByIdx(idx: number): T[] {
     const h = this._list.splice(idx, 1);
     return this._list;
+  }
+
+  getById(id: string | number): T | null {
+    if (!this._id) {
+      throw new Error("No Id set in the options");
+    }
+    const r = this._list.find(e => e[this._id] == id);
+    return r;
   }
 
   pop(): T {
