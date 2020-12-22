@@ -67,7 +67,7 @@ const collection = new Collection<Task>([task1, task2, task], { id: "id" });
 console.log("3", collection.getById("3"));
 
 console.log(
-  collection.indexBy(
+  collection.indexByCategories(
     (x: Task) => {
       return x.done ? "done" : "undone";
     },

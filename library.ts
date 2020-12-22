@@ -53,7 +53,7 @@ export class Collection<T> {
     return this._list.pop();
   }
 
-  indexBy(fn: Function, init = {}): { [key: string]: T[] } {
+  indexByCategories(fn: Function, init = {}): { [key: string]: T[] } {
     const r = init;
     const list = this._list;
 
