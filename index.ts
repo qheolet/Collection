@@ -69,7 +69,6 @@ console.log("3", collection.getById("3"));
 console.log(
   collection.indexBy(
     (x: Task) => {
-      // console.log('=>',typeof +x.id);
       return x.done ? "done" : "undone";
     },
     { undone: [], done: [] }
