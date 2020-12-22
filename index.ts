@@ -19,12 +19,13 @@ export class Task extends Model {
   done: boolean = false;
   categories: categories;
 
-  constructor({ date, id, description, categories }) {
+  constructor({ date, id, description, categories, done }) {
     super();
     this.date = new DateValue(date);
     this.id = id;
     this.description = description;
     this.categories = categories;
+    this.done = done;
   }
 
   toggle() {
@@ -43,19 +44,22 @@ const task = new Task({
   date: "june 12, 2020",
   id: "1",
   description: "Comococmoc 1",
-  categories: ["a"]
+  categories: ["a"],
+  done: true
 });
 const task1 = new Task({
   date: "june 13, 2020",
   id: "2",
   description: "Comococmoc 2",
-  categories: ["a", "b"]
+  categories: ["a", "b"],
+  done: false
 });
 const task2 = new Task({
   date: "june 14, 2020",
   id: "3",
   description: "Comococmoc 3",
-  categories: ["c"]
+  categories: ["c"],
+  done: false
 });
 
 const collection = new Collection<Task>([task1, task2, task], { id: "id" });
