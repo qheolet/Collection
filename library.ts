@@ -27,12 +27,18 @@ export class Collection<T> {
     return this._list.reverse();
   }
 
-  query(sortFn: (a: T, b: T) => number): T[] {
+  sort(sortFn: (a: T, b: T) => number): T[] {
     return this._list.sort(sortFn);
   }
 
   deleteByIdx(idx: number): T[] {
     const h = this._list.splice(idx, 1);
+    return this._list;
+  }
+
+  deleteByUniqueId(id: string | number) {
+    const idx = this._list.findIndex(elem => elem[this._id] === id);
+
     return this._list;
   }
 
