@@ -11,12 +11,7 @@ export class Collection<T> {
       this._id = options.id;
     }
 
-    this.set(item);
-  }
-
-  set(item: Array<T>): number {
-    this._list.concat(item);
-    return this._list.length;
+    this._list = item || [];
   }
 
   add(item: T): number {
