@@ -2,9 +2,18 @@ interface Options {
   id?: string;
 }
 
+enum EventTypes {
+  onItemDeleted,
+  onItemAdded
+}
+
 export class Collection<T> {
   private _list: T[] = [];
   private _id: string;
+  private _events: { [key: string]: Function[] } = {
+    onItemDeleted: [],
+    onItemAdded: []
+  };
 
   constructor(item: Array<T>, options?: Options) {
     if (options) {
@@ -38,7 +47,7 @@ export class Collection<T> {
 
   deleteByUniqueId(id: string | number) {
     const idx = this._list.findIndex(elem => elem[this._id] === id);
-
+    this.deleteByIdx(idx);
     return this._list;
   }
 
@@ -69,8 +78,28 @@ export class Collection<T> {
     return r;
   }
 
-  get size() {
+  size(): number {
     return this._list.length;
+  }
+
+  getList(): T[] {
+    return this._list;
+  }
+
+  trigger(event: EventTypes, value: any) {
+    this._events[event].forEach(fn => fn(value));
+  }
+
+  subscriber(event: EventTypes, fn: Function) {
+    this._events[event].push(fn);
+
+    return () => {
+      this.unsubscribe(event);
+    };
+  }
+
+  unsubscribe(event: EventTypes) {
+    this._events[event] = [];
   }
 }
 
